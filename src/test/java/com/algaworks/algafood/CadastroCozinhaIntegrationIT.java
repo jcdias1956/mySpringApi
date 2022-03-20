@@ -63,19 +63,19 @@ class CadastroCozinhaIntegrationIT {
 		assertThat(erroEsperado).isNotNull();
 	}
 
-	@Test
-	@Order(3)
-	public void deveFalhar_QuandoExcluirCozinhaEmUso() {
-		
-		Long idCozinha = 1L;
-		
-		EntidadeEmUsoException erroEsperado = Assertions.assertThrows(EntidadeEmUsoException.class, () -> {
-			cadastroCozinhaServive.excluir(idCozinha);
-		});
-
-		assertThat(erroEsperado).isNotNull();
-
-	}
+//	@Test
+//	@Order(3)
+//	public void deveFalhar_QuandoExcluirCozinhaEmUso() {
+//		
+//		Long idCozinha = 1L;
+//		
+//		EntidadeEmUsoException erroEsperado = Assertions.assertThrows(EntidadeEmUsoException.class, () -> {
+//			cadastroCozinhaServive.excluir(idCozinha);
+//		});
+//
+//		assertThat(erroEsperado).isNotNull();
+//
+//	}
 	
 	@Test
 	@Order(4)

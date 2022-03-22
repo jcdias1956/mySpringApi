@@ -28,6 +28,7 @@ public class CadastroEstadoServive {
 
 		try {
 			estadoRepository.deleteById(estadoId);
+			estadoRepository.flush();
 			
 		} catch (EmptyResultDataAccessException e) {
 			throw new EstadoNaoEcontradoException (estadoId);

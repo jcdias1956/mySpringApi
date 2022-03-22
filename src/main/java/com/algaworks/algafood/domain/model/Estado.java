@@ -24,7 +24,6 @@ public class Estado {
 	@EqualsAndHashCode.Include
 	private Long id;
 	
-	@NotBlank
 	@Column(nullable = false)
 	private String nome;
 

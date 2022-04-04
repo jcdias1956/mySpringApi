@@ -3,9 +3,13 @@ package com.algaworks.algafood.api.model;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
+
 import lombok.Getter;
 import lombok.Setter;
 
+// para usar o @JsonFilter tem que habilitar o getmapping correspondente no PedidoController
+//@JsonFilter("pedidoFilter")
 @Getter
 @Setter
 public class PedidoResumoModel {

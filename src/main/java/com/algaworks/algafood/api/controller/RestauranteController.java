@@ -11,6 +11,7 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.validation.BeanPropertyBindingResult;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,6 +33,7 @@ import com.algaworks.algafood.api.assembler.RestauranteModelAssembler;
 import com.algaworks.algafood.api.model.RestauranteModel;
 import com.algaworks.algafood.api.model.input.CozinhaIdInput;
 import com.algaworks.algafood.api.model.input.RestauranteInput;
+import com.algaworks.algafood.api.model.view.RestauranteView;
 import com.algaworks.algafood.core.validation.ValidacaoException;
 import com.algaworks.algafood.domain.exception.CidadeNaoEcontradaException;
 import com.algaworks.algafood.domain.exception.CozinhaNaoEcontradaException;
@@ -40,7 +43,9 @@ import com.algaworks.algafood.domain.exception.RestauranteNaoEcontradoException;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
 import com.algaworks.algafood.domain.service.CadastroRestauranteService;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.MappingJsonFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
@@ -61,18 +66,48 @@ public class RestauranteController {
 	
 	@Autowired
 	private SmartValidator smartValidator;
+
+	@GetMapping
+	public MappingJacksonValue listar(@RequestParam(required = false) String projecao) {
+		List<Restaurante> restaurantes = restauranteRepository.findAll();
+		List<RestauranteModel> restaurantesModel = restauranteModelAssembler.toCollectionModel(restaurantes);
+		
+		MappingJacksonValue restaurantesWapper = new MappingJacksonValue(restaurantesModel);
+		
+		restaurantesWapper.setSerializationView(RestauranteView.Resumo.class);
+		
+		if ("apenas-nome".equals(projecao)) {
+			restaurantesWapper.setSerializationView(RestauranteView.ApenasNome.class);
+		} else if ("completo".equals(projecao)) {
+			restaurantesWapper.setSerializationView(null);
+		}
+		
+		return restaurantesWapper;
+	}
+
+//	@GetMapping
+//	public List<RestauranteModel> listar() {
+//		
+//		return restauranteModelAssembler.toCollectionModel(restauranteRepository.findAll());
+//	}
+//	
+//	@JsonView(RestauranteView.Resumo.class)
+//	@GetMapping(params = "projecao=resumo")
+//	public List<RestauranteModel> listarResumido() {
+//		return listar();
+//	}
+//	
+//	@JsonView(RestauranteView.ApenasNome.class)
+//	@GetMapping(params = "projecao=apenas-nome")
+//	public List<RestauranteModel> listaApenasNomes() {
+//		return listar();
+//	}
 	
 	@GetMapping(value = "/{restauranteId}")
 	public RestauranteModel buscar(@PathVariable Long restauranteId) {
 		Restaurante restaurante =  cadastroRestauranteService.buscarOuFalhar(restauranteId);
 		
 		return restauranteModelAssembler.toModel(restaurante);
-	}
-	
-	@GetMapping
-	public List<RestauranteModel> listar() {
-		
-		return restauranteModelAssembler.toCollectionModel(restauranteRepository.findAll());
 	}
 	
 	@PostMapping

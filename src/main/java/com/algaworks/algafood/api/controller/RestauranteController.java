@@ -10,12 +10,14 @@ import javax.validation.Valid;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.SmartValidator;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -47,6 +49,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MappingJsonFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.net.HttpHeaders;
 
 @RestController
 @RequestMapping(value = "/restaurantes")
@@ -67,29 +70,55 @@ public class RestauranteController {
 	@Autowired
 	private SmartValidator smartValidator;
 
-	@GetMapping
-	public MappingJacksonValue listar(@RequestParam(required = false) String projecao) {
-		List<Restaurante> restaurantes = restauranteRepository.findAll();
-		List<RestauranteModel> restaurantesModel = restauranteModelAssembler.toCollectionModel(restaurantes);
-		
-		MappingJacksonValue restaurantesWapper = new MappingJacksonValue(restaurantesModel);
-		
-		restaurantesWapper.setSerializationView(RestauranteView.Resumo.class);
-		
-		if ("apenas-nome".equals(projecao)) {
-			restaurantesWapper.setSerializationView(RestauranteView.ApenasNome.class);
-		} else if ("completo".equals(projecao)) {
-			restaurantesWapper.setSerializationView(null);
-		}
-		
-		return restaurantesWapper;
-	}
+//	@GetMapping
+//	public ResponseEntity<?> listar(@RequestParam(required = false) String projecao) {
+//		List<Restaurante> restaurantes = restauranteRepository.findAll();
+//		List<RestauranteModel> restaurantesModel = restauranteModelAssembler.toCollectionModel(restaurantes);
+//				
+//		MappingJacksonValue restaurantesWapper = new MappingJacksonValue(restaurantesModel);
+//		
+//		restaurantesWapper.setSerializationView(RestauranteView.Resumo.class);
+//		
+//		if ("apenas-nome".equals(projecao)) {
+//			restaurantesWapper.setSerializationView(RestauranteView.ApenasNome.class);
+//		} else if ("completo".equals(projecao)) {
+//			restaurantesWapper.setSerializationView(null);
+//		}
+//		
+//		return ResponseEntity.ok()
+//				.header(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "http://localhost:8000")
+//				.body(restaurantesWapper);
+//	}
+	
+//	@GetMapping
+//	public MappingJacksonValue listar(@RequestParam(required = false) String projecao) {
+//		List<Restaurante> restaurantes = restauranteRepository.findAll();
+//		List<RestauranteModel> restaurantesModel = restauranteModelAssembler.toCollectionModel(restaurantes);
+//		
+//		MappingJacksonValue restaurantesWapper = new MappingJacksonValue(restaurantesModel);
+//		
+//		restaurantesWapper.setSerializationView(RestauranteView.Resumo.class);
+//		
+//		if ("apenas-nome".equals(projecao)) {
+//			restaurantesWapper.setSerializationView(RestauranteView.ApenasNome.class);
+//		} else if ("completo".equals(projecao)) {
+//			restaurantesWapper.setSerializationView(null);
+//		}
+//		
+//		return restaurantesWapper;
+//	}
 
 //	@GetMapping
 //	public List<RestauranteModel> listar() {
 //		
 //		return restauranteModelAssembler.toCollectionModel(restauranteRepository.findAll());
 //	}
+	
+	@JsonView(RestauranteView.Resumo.class)
+	@GetMapping
+	public List<RestauranteModel> listar() {
+		return restauranteModelAssembler.toCollectionModel(restauranteRepository.findAll());
+	}
 //	
 //	@JsonView(RestauranteView.Resumo.class)
 //	@GetMapping(params = "projecao=resumo")

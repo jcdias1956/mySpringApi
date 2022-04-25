@@ -1,11 +1,15 @@
 package com.algaworks.algafood.api.controller;
 
+import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.ServletWebRequest;
+import org.springframework.web.filter.ShallowEtagHeaderFilter;
 
 import com.algaworks.algafood.api.assembler.FormaPagamentoInputDisassembler;
 import com.algaworks.algafood.api.assembler.FormaPagamentoModelAssembler;
@@ -41,17 +47,67 @@ public class FormaPagamentoController {
 	private FormaPagamentoInputDisassembler formaPagamentoInputDisassembler; 
 	
 	@GetMapping
-	public List<FormaPagamentoModel> listar() {
+	public ResponseEntity<List<FormaPagamentoModel>> listar(ServletWebRequest servletWebRequest) {
+		
+		// usar Deep ETags precisa desabilitar o ShallowEtagHeaderFilter
+		// na pratica, o Deeo ETags para forma de pagmento eh muito preciosismo. Tem muito poudo beneficio
+		ShallowEtagHeaderFilter.disableContentCaching(servletWebRequest.getRequest());
+		
+		String eTag = "0";
+		
+		OffsetDateTime dataUltimaAtualizacao = formaPagamentoRepository.getDataUltimaAtualizacao();
+		if (dataUltimaAtualizacao != null) {
+			eTag = String.valueOf(dataUltimaAtualizacao.toEpochSecond());
+		}
+		
+		// ja temos condicoes de saber se continua ou nao com o processamento
+		if (servletWebRequest.checkNotModified(eTag)) {
+			return null;
+		}
+		
 		List<FormaPagamento> todasFormasPagamento = formaPagamentoRepository.findAll();
 		
-		return formaPagamentoModelAssembler.toCollectionModel(todasFormasPagamento);
+		List<FormaPagamentoModel> formasPagamentosModel = formaPagamentoModelAssembler.toCollectionModel(todasFormasPagamento);
+		
+		return ResponseEntity.ok()
+//				.cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))
+//				.cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS).cachePrivate())
+				.cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS).cachePublic())
+//				.cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS).noCache())
+//				.cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS).noStore())
+				.eTag(eTag)
+				.body(formasPagamentosModel);
 	}
 	
 	@GetMapping(value = "/{formaPagamentoId}")
-	public FormaPagamentoModel buscar(@PathVariable Long formaPagamentoId) {
+	public ResponseEntity<FormaPagamentoModel> buscar(@PathVariable Long formaPagamentoId,
+			ServletWebRequest servletWebRequest) {
+		
+		// usar Deep ETags precisa desabilitar o ShallowEtagHeaderFilter
+		// na pratica, o Deeo ETags para forma de pagmento eh muito preciosismo. Tem muito poudo beneficio
+		ShallowEtagHeaderFilter.disableContentCaching(servletWebRequest.getRequest());
+		
+		String eTag = "0";
+		
+		OffsetDateTime dataUltimaAtualizacao = formaPagamentoRepository.getDataAtualizacaoById(formaPagamentoId);
+		if (dataUltimaAtualizacao != null) {
+			eTag = String.valueOf(dataUltimaAtualizacao.toEpochSecond());
+		}
+		
+		// ja temos condicoes de saber se continua ou nao com o processamento
+		if (servletWebRequest.checkNotModified(eTag)) {
+			return null;
+		}
+		
+
 		FormaPagamento formaPagamento = cadastroFormaPagamentoServive.buscarOuFalhar(formaPagamentoId);
 		
-		return formaPagamentoModelAssembler.toModel(formaPagamento);
+		FormaPagamentoModel formaPagamentoModel = formaPagamentoModelAssembler.toModel(formaPagamento);
+		
+		return ResponseEntity.ok()
+				.cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))
+				.eTag(eTag)
+				.body(formaPagamentoModel);
 	}
 	
 	@PostMapping

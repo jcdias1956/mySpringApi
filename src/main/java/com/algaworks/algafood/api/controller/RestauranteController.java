@@ -10,14 +10,12 @@ import javax.validation.Valid;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.SmartValidator;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -26,7 +24,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,6 +33,8 @@ import com.algaworks.algafood.api.model.RestauranteModel;
 import com.algaworks.algafood.api.model.input.CozinhaIdInput;
 import com.algaworks.algafood.api.model.input.RestauranteInput;
 import com.algaworks.algafood.api.model.view.RestauranteView;
+import com.algaworks.algafood.api.openapi.controller.RestauranteControllerOpenApi;
+import com.algaworks.algafood.api.openapi.model.RestauranteBasicoModelOpenApi;
 import com.algaworks.algafood.core.validation.ValidacaoException;
 import com.algaworks.algafood.domain.exception.CidadeNaoEcontradaException;
 import com.algaworks.algafood.domain.exception.CozinhaNaoEcontradaException;
@@ -47,13 +46,15 @@ import com.algaworks.algafood.domain.repository.RestauranteRepository;
 import com.algaworks.algafood.domain.service.CadastroRestauranteService;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.MappingJsonFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.net.HttpHeaders;
+
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
-@RequestMapping(value = "/restaurantes")
-public class RestauranteController {
+@RequestMapping(value = "/restaurantes", produces = MediaType.APPLICATION_JSON_VALUE)
+public class RestauranteController implements RestauranteControllerOpenApi {
 
 	@Autowired
 	private RestauranteRepository restauranteRepository;
@@ -114,23 +115,30 @@ public class RestauranteController {
 //		return restauranteModelAssembler.toCollectionModel(restauranteRepository.findAll());
 //	}
 	
+	@ApiOperation(value = "Lista restaurantes", response = RestauranteBasicoModelOpenApi.class)
+	@ApiImplicitParams({
+		@ApiImplicitParam(value = "Nome da projecao de pedidos", allowableValues = "apenas-nome",
+				name = "projecao", paramType = "query", type = "string")
+	})
 	@JsonView(RestauranteView.Resumo.class)
 	@GetMapping
 	public List<RestauranteModel> listar() {
 		return restauranteModelAssembler.toCollectionModel(restauranteRepository.findAll());
 	}
-//	
+	
+//	@ApiOperation(value = "Lista restaurantes", hidden = true)
 //	@JsonView(RestauranteView.Resumo.class)
 //	@GetMapping(params = "projecao=resumo")
 //	public List<RestauranteModel> listarResumido() {
 //		return listar();
 //	}
-//	
-//	@JsonView(RestauranteView.ApenasNome.class)
-//	@GetMapping(params = "projecao=apenas-nome")
-//	public List<RestauranteModel> listaApenasNomes() {
-//		return listar();
-//	}
+	
+	@ApiOperation(value = "Lista restaurantes", hidden = true)
+	@JsonView(RestauranteView.ApenasNome.class)
+	@GetMapping(params = "projecao=apenas-nome")
+	public List<RestauranteModel> listarApenasNomes() {
+		return listar();
+	}
 	
 	@GetMapping(value = "/{restauranteId}")
 	public RestauranteModel buscar(@PathVariable Long restauranteId) {
@@ -196,7 +204,7 @@ public class RestauranteController {
 	
 	@DeleteMapping("/ativacoes")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void desativarMultiplos(@RequestBody List<Long> restaurantesIds) {
+	public void inativarMultiplos(@RequestBody List<Long> restaurantesIds) {
 		try {
 			cadastroRestauranteService.inativar(restaurantesIds);
 		} catch (RestauranteNaoEcontradoException e) {

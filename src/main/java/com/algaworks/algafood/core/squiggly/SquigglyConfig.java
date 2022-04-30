@@ -17,6 +17,7 @@ public class SquigglyConfig {
 	@Bean
 	public FilterRegistrationBean<SquigglyRequestFilter> squigglyRequestFilter(ObjectMapper objectMapper) {
 		
+		// filtra e mostra somente os campos passados como parametros
 		Squiggly.init(objectMapper, new RequestSquigglyContextProvider("campos", null));
 		
 		var filterRegistration = new FilterRegistrationBean<SquigglyRequestFilter>();

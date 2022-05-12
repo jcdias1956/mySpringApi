@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,7 +30,7 @@ import com.algaworks.algafood.domain.repository.UsuarioRepository;
 import com.algaworks.algafood.domain.service.CadastroUsuarioService;
 
 @RestController
-@RequestMapping(path = "/usuarios", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/usuarios")
 public class UsuarioController implements UsuarioControllerOpenApi {
 
 	@Autowired
@@ -44,15 +45,15 @@ public class UsuarioController implements UsuarioControllerOpenApi {
 	@Autowired
 	private UsuarioInputDisassembler usuarioInputDisassembler;
 	
-	@GetMapping
-	public List<UsuarioModel> listar() {
+	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	public CollectionModel<UsuarioModel> listar() {
 	
 		List<Usuario> todosUsuarios = usuarioRepository.findAll();
 	
 		return usuarioModelAssembler.toCollectionModel(todosUsuarios);
 	}
 	
-	@GetMapping(value = "/{usuarioId}")
+	@GetMapping(path = "/{usuarioId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public UsuarioModel buscar(@PathVariable Long usuarioId) {
 		
 		Usuario usuario =  cadastroUsuarioService.buscarOuFalhar(usuarioId);
@@ -60,7 +61,7 @@ public class UsuarioController implements UsuarioControllerOpenApi {
 		return usuarioModelAssembler.toModel(usuario);
 	}
 	
-	@PostMapping
+	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.CREATED)
 	public UsuarioModel adicionar (@RequestBody @Valid UsuarioComSenhaInput usuarioInput) {
 
@@ -71,7 +72,7 @@ public class UsuarioController implements UsuarioControllerOpenApi {
 			
 	}
 	
-	@PutMapping("/{usuarioId}")
+	@PutMapping(path = "/{usuarioId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public UsuarioModel atualizar(@PathVariable Long usuarioId,
 			@RequestBody @Valid UsuarioInput usuarioInput) {
 		
@@ -82,7 +83,7 @@ public class UsuarioController implements UsuarioControllerOpenApi {
 		return usuarioModelAssembler.toModel(usuarioAtual);
 	}
 	
-	@PutMapping("/{usuarioId}/senha")
+	@PutMapping(path = "/{usuarioId}/senha")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void alterarSenha(@PathVariable Long usuarioId,
 			@RequestBody @Valid SenhaInput senhaInput) {

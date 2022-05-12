@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -46,18 +48,19 @@ public class CozinhaController implements CozinhaControllerOpenApi {
 	@Autowired
 	private CozinhaInputDisassembler cozinhaInputDisassembler; 
 	
+	@Autowired
+	private PagedResourcesAssembler<Cozinha> pagedResourcesAssembler;
+	
 	// usando page
 	// o valor default do @PageableDefault e 10
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public Page<CozinhaModel> listar(@PageableDefault(size = 2) Pageable pageable) {
+	public PagedModel<CozinhaModel> listar(@PageableDefault(size = 2) Pageable pageable) {
 		Page<Cozinha> cozinhasPage = cozinhaRepository.findAll(pageable);
 		
-		List<CozinhaModel> cozinhasModel = cozinhaModelAssembler.toCollectionModel(cozinhasPage.getContent());
+		PagedModel<CozinhaModel> cozinhasPagedModel = pagedResourcesAssembler
+			.toModel(cozinhasPage, cozinhaModelAssembler);		
 		
-		Page<CozinhaModel> cozinhasModelPage = new PageImpl<>(cozinhasModel, 
-				pageable, cozinhasPage.getTotalElements());
-		
-		return cozinhasModelPage;
+		return cozinhasPagedModel;
 	}
 	
 //	// sem usar page
@@ -67,13 +70,13 @@ public class CozinhaController implements CozinhaControllerOpenApi {
 //		return cozinhaModelAssembler.toCollectionModel(todasCozinhas);
 //	}
 		
-	@GetMapping(value = "/{cozinhaId}")
+	@GetMapping(path = "/{cozinhaId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public CozinhaModel buscar(@PathVariable Long cozinhaId) {
 		Cozinha cozinha = cadastroCozinhaServive.buscarOuFalhar(cozinhaId);
 		return cozinhaModelAssembler.toModel(cozinha);
 	}
 	
-	@PostMapping
+	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.CREATED)
 	public CozinhaModel adicionar(@RequestBody @Valid CozinhaInput cozinhaInput) {
 		Cozinha cozinha = cozinhaInputDisassembler.toDomainObject(cozinhaInput);
@@ -81,7 +84,7 @@ public class CozinhaController implements CozinhaControllerOpenApi {
 		return cozinhaModelAssembler.toModel(cozinha);
 	}
 	
-	@PutMapping("/{cozinhaId}")
+	@PutMapping(path = "/{cozinhaId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public CozinhaModel atualizar(@PathVariable Long cozinhaId,
 			@RequestBody @Valid CozinhaInput cozinhaInput) {
 		

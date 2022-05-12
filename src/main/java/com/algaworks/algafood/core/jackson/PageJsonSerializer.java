@@ -9,6 +9,15 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 
+/**
+ * Com o uso do HateOas o recurso de paginacao eh o PagedModel
+ * 
+ * Portanto esta classe de serializacao nao e mais usada.
+ * 
+ * @author jcdias
+ *
+ */
+@Deprecated
 @JsonComponent
 public class PageJsonSerializer extends JsonSerializer<Page<?>> {
 

@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -33,7 +34,7 @@ import com.algaworks.algafood.domain.repository.FormaPagamentoRepository;
 import com.algaworks.algafood.domain.service.CadastroFormaPagamentoService;
 
 @RestController
-@RequestMapping(path = "/formas-pagamento", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/formas-pagamento")
 public class FormaPagamentoController implements FormaPagamentoControllerOpenApi {
 
 	@Autowired
@@ -48,8 +49,8 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
 	@Autowired
 	private FormaPagamentoInputDisassembler formaPagamentoInputDisassembler; 
 	
-	@GetMapping
-	public ResponseEntity<List<FormaPagamentoModel>> listar(ServletWebRequest servletWebRequest) {
+	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<CollectionModel<FormaPagamentoModel>> listar(ServletWebRequest servletWebRequest) {
 		
 		// usar Deep ETags precisa desabilitar o ShallowEtagHeaderFilter
 		// na pratica, o Deeo ETags para forma de pagmento eh muito preciosismo. Tem muito poudo beneficio
@@ -69,7 +70,8 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
 		
 		List<FormaPagamento> todasFormasPagamento = formaPagamentoRepository.findAll();
 		
-		List<FormaPagamentoModel> formasPagamentosModel = formaPagamentoModelAssembler.toCollectionModel(todasFormasPagamento);
+		CollectionModel<FormaPagamentoModel> formasPagamentosModel = 
+				formaPagamentoModelAssembler.toCollectionModel(todasFormasPagamento);
 		
 		return ResponseEntity.ok()
 //				.cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))
@@ -81,7 +83,7 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
 				.body(formasPagamentosModel);
 	}
 	
-	@GetMapping(value = "/{formaPagamentoId}")
+	@GetMapping(path = "/{formaPagamentoId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<FormaPagamentoModel> buscar(@PathVariable Long formaPagamentoId,
 			ServletWebRequest servletWebRequest) {
 		
@@ -112,7 +114,7 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
 				.body(formaPagamentoModel);
 	}
 	
-	@PostMapping
+	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.CREATED)
 	public FormaPagamentoModel adicionar(@RequestBody @Valid FormaPagamentoInput formaPagamentoInput) {
 		FormaPagamento formaPagammento = formaPagamentoInputDisassembler.toDomainObject(formaPagamentoInput);
@@ -122,7 +124,7 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
 		return formaPagamentoModelAssembler.toModel(formaPagammento);
 	}
 	
-	@PutMapping("/{formaPagamentoId}")
+	@PutMapping(path = "/{formaPagamentoId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public FormaPagamentoModel atualizar(@PathVariable Long formaPagamentoId,
 			@RequestBody @Valid FormaPagamentoInput formaPagamentoInput) {
 		

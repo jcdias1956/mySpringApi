@@ -1,4 +1,4 @@
-package com.algaworks.algafood.core.openapi;
+package com.algaworks.algafood.core.springfox;
 
 import java.io.File;
 import java.io.InputStream;
@@ -12,8 +12,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.io.Resource;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.Links;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.ServletWebRequest;
@@ -21,11 +23,28 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.algaworks.algafood.api.exceptionhandler.Problem;
+import com.algaworks.algafood.api.model.CidadeModel;
 import com.algaworks.algafood.api.model.CozinhaModel;
+import com.algaworks.algafood.api.model.EstadoModel;
+import com.algaworks.algafood.api.model.FormaPagamentoModel;
+import com.algaworks.algafood.api.model.GrupoModel;
 import com.algaworks.algafood.api.model.PedidoResumoModel;
+import com.algaworks.algafood.api.model.PermissaoModel;
+import com.algaworks.algafood.api.model.ProdutoModel;
+import com.algaworks.algafood.api.model.RestauranteBasicoModel;
+import com.algaworks.algafood.api.model.UsuarioModel;
+import com.algaworks.algafood.api.openapi.model.CidadesModelOpenApi;
 import com.algaworks.algafood.api.openapi.model.CozinhasModelOpenApi;
+import com.algaworks.algafood.api.openapi.model.EstadosModelOpenApi;
+import com.algaworks.algafood.api.openapi.model.FormasPagamentoModelOpenApi;
+import com.algaworks.algafood.api.openapi.model.GruposModelOpenApi;
+import com.algaworks.algafood.api.openapi.model.LinksModelOpenApi;
 import com.algaworks.algafood.api.openapi.model.PageableModelOpenApi;
 import com.algaworks.algafood.api.openapi.model.PedidosResumoModelOpenApi;
+import com.algaworks.algafood.api.openapi.model.PermissoesModelOpenApi;
+import com.algaworks.algafood.api.openapi.model.ProdutosModelOpenApi;
+import com.algaworks.algafood.api.openapi.model.RestaurantesBasicoModelOpenApi;
+import com.algaworks.algafood.api.openapi.model.UsuariosModelOpenApi;
 import com.fasterxml.classmate.TypeResolver;
 
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
@@ -72,7 +91,7 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 				.globalResponseMessage(RequestMethod.POST, globalPostPutResponseMessages())
 	            .globalResponseMessage(RequestMethod.PUT, globalPostPutResponseMessages())
 	            .globalResponseMessage(RequestMethod.DELETE, globalDeleteResponseMessages())
-// atribui a todos os requestes na documentacao
+// atribui a todos os requests na documentacao
 //	            .globalOperationParameters(Arrays.asList(
 //	            		new ParameterBuilder()
 //	            			.name("campos")
@@ -86,12 +105,38 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 	            		URL.class, URI.class, URLStreamHandler.class, Resource.class,
 	            		File.class, InputStream.class)
 	            .directModelSubstitute(Pageable.class, PageableModelOpenApi.class)
+	            .directModelSubstitute(Links.class, LinksModelOpenApi.class)
 	            .alternateTypeRules(AlternateTypeRules.newRule(
-	            		typeResolver.resolve(Page.class, CozinhaModel.class),
+	            		typeResolver.resolve(PagedModel.class, CozinhaModel.class),
 	            		CozinhasModelOpenApi.class))
 	            .alternateTypeRules(AlternateTypeRules.newRule(
-	                    typeResolver.resolve(Page.class, PedidoResumoModel.class),
+	                    typeResolver.resolve(PagedModel.class, PedidoResumoModel.class),
 	                    PedidosResumoModelOpenApi.class))
+	            .alternateTypeRules(AlternateTypeRules.newRule(
+	            		typeResolver.resolve(CollectionModel.class, CidadeModel.class),
+	            		CidadesModelOpenApi.class))
+	            .alternateTypeRules(AlternateTypeRules.newRule(
+	            		typeResolver.resolve(CollectionModel.class, EstadoModel.class),
+	            		EstadosModelOpenApi.class))
+	            .alternateTypeRules(AlternateTypeRules.newRule(
+	            		typeResolver.resolve(CollectionModel.class, FormaPagamentoModel.class),
+	            		FormasPagamentoModelOpenApi.class))
+	            .alternateTypeRules(AlternateTypeRules.newRule(
+	            		typeResolver.resolve(CollectionModel.class, GrupoModel.class),
+	            		GruposModelOpenApi.class))
+	            .alternateTypeRules(AlternateTypeRules.newRule(
+	            		typeResolver.resolve(CollectionModel.class, PermissaoModel.class),
+	            		PermissoesModelOpenApi.class))
+	            .alternateTypeRules(AlternateTypeRules.newRule(
+	            		typeResolver.resolve(CollectionModel.class, ProdutoModel.class),
+	            		ProdutosModelOpenApi.class))
+	            .alternateTypeRules(AlternateTypeRules.newRule(
+	            		typeResolver.resolve(CollectionModel.class, RestauranteBasicoModel.class),
+	            		RestaurantesBasicoModelOpenApi.class))
+	            .alternateTypeRules(AlternateTypeRules.newRule(
+	            		typeResolver.resolve(CollectionModel.class, UsuarioModel.class),
+	            		UsuariosModelOpenApi.class))
+	            
 				.apiInfo(apiInfo())
 				.tags(new Tag("Cidades", "Gerenciar as cidades"),
 						new Tag("Grupos", "Gerencia os grupos de usuários"),
@@ -102,7 +147,8 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 						new Tag("Estados", "Gerencia os estados"),
 						new Tag("Produtos", "Gerencia os produtos de restaurantes"),
 						new Tag("Usuários", "Gerencia os usuarios"),
-						new Tag("Estatísticas", "Estatísticas da AlgaFood")
+						new Tag("Estatísticas", "Estatísticas da AlgaFood"),
+						new Tag("Permissões", "Gerencia as permissões")
 						);
 	}
 	

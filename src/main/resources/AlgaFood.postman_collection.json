@@ -26,13 +26,30 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:8080/cozinhas",
+							"raw": "localhost:8080/v1/cozinhas?page=0",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"cozinhas"
+							],
+							"query": [
+								{
+									"key": "size",
+									"value": "5",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "sort",
+									"value": "id,asc",
+									"disabled": true
+								}
 							]
 						}
 					},
@@ -64,12 +81,13 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/cozinhas/1",
+							"raw": "localhost:8080/v1/cozinhas/1",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"cozinhas",
 								"1"
 							]
@@ -103,12 +121,53 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/cozinhas/1",
+							"raw": "localhost:8080/v1/cozinhas/1",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
+								"cozinhas",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cozinhas - Atualizar V2",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nomeCozinha\": \"Brasileira\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/v2/cozinhas/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v2",
 								"cozinhas",
 								"1"
 							]
@@ -142,12 +201,52 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/cozinhas",
+							"raw": "localhost:8080/v1/cozinhas",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
+								"cozinhas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cozinhas - Adicionar V2",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nomeCozinha\": \"Chilena\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/v2/cozinhas",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v2",
 								"cozinhas"
 							]
 						}
@@ -217,14 +316,15 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/cozinhas/10",
+							"raw": "localhost:8080/v1/cozinhas/5",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"cozinhas",
-								"10"
+								"5"
 							]
 						}
 					},
@@ -294,13 +394,35 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:8080/restaurantes",
+							"raw": "localhost:8080/v1/restaurantes?campos=nome",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"restaurantes"
+							],
+							"query": [
+								{
+									"key": "projecao",
+									"value": "completo",
+									"disabled": true
+								},
+								{
+									"key": "projecao",
+									"value": "apenas-nome",
+									"disabled": true
+								},
+								{
+									"key": "projecao",
+									"value": "resumo",
+									"disabled": true
+								},
+								{
+									"key": "campos",
+									"value": "nome"
+								}
 							]
 						}
 					},
@@ -324,12 +446,13 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:8080/restaurantes/1/responsaveis",
+							"raw": "localhost:8080/v1/restaurantes/1/responsaveis",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"restaurantes",
 								"1",
 								"responsaveis"
@@ -356,12 +479,13 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:8080/restaurantes/1/responsaveis/5",
+							"raw": "localhost:8080/v1/restaurantes/1/responsaveis/5",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"restaurantes",
 								"1",
 								"responsaveis",
@@ -389,12 +513,13 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:8080/restaurantes/1",
+							"raw": "localhost:8080/v1/restaurantes/1",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"restaurantes",
 								"1"
 							]
@@ -420,12 +545,13 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:8080/restaurantes/1/formas-pagamento",
+							"raw": "localhost:8080/v1/restaurantes/1/formas-pagamento",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"restaurantes",
 								"1",
 								"formas-pagamento"
@@ -452,12 +578,14 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:8080/restaurantes/1/formas-pagamento/3",
+							"raw": "localhost:8080//v1/restaurantes/1/formas-pagamento/3",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"",
+								"v1",
 								"restaurantes",
 								"1",
 								"formas-pagamento",
@@ -485,12 +613,13 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:8080/restaurantes/5/ativo",
+							"raw": "localhost:8080/v1/restaurantes/5/ativo",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"restaurantes",
 								"5",
 								"ativo"
@@ -517,12 +646,13 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:8080/restaurantes/5/ativo",
+							"raw": "localhost:8080/v1/restaurantes/5/ativo",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"restaurantes",
 								"5",
 								"ativo"
@@ -558,12 +688,13 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/restaurantes/ativacoes",
+							"raw": "localhost:8080/v1/restaurantes/ativacoes",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"restaurantes",
 								"ativacoes"
 							]
@@ -589,12 +720,13 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:8080/restaurantes/1/fechamento",
+							"raw": "localhost:8080/v1/restaurantes/1/fechamento",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"restaurantes",
 								"1",
 								"fechamento"
@@ -621,12 +753,13 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:8080/restaurantes/1/abertura",
+							"raw": "localhost:8080/v1/restaurantes/1/abertura",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"restaurantes",
 								"1",
 								"abertura"
@@ -654,7 +787,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n   \"nome\": \"Amatelin2\",\n    \"taxaFrete\": 1.2,\n    \"enereco\": {\n        \"cep\": \"30380-380\"\n    }\n}",
+							"raw": "{\n   \"nome\": \"Amatelin2\",\n    \"taxaFrete\": 1.2,\n    \"endereco\": {\n        \"cep\": \"30380-380\"\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -662,12 +795,13 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/restaurantes/4",
+							"raw": "localhost:8080/v1/restaurantes/4",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"restaurantes",
 								"4"
 							]
@@ -701,12 +835,13 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/restaurantes",
+							"raw": "localhost:8080/v1/restaurantes",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"restaurantes"
 							]
 						}
@@ -739,12 +874,13 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/restaurantes",
+							"raw": "localhost:8080/v1/restaurantes",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"restaurantes"
 							]
 						}
@@ -777,12 +913,13 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/restaurantes/1",
+							"raw": "localhost:8080/v1/restaurantes/1",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"restaurantes",
 								"1"
 							]
@@ -816,12 +953,13 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/restaurantes/4",
+							"raw": "localhost:8080/v1/restaurantes/4",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"restaurantes",
 								"4"
 							]
@@ -855,12 +993,13 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/restaurantes/ativacoes",
+							"raw": "localhost:8080/v1/restaurantes/ativacoes",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"restaurantes",
 								"ativacoes"
 							]
@@ -984,12 +1123,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/estados",
+							"raw": "localhost:8080/v1/estados",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"estados"
 							]
 						}
@@ -1013,12 +1153,13 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:8080/estados/1",
+							"raw": "localhost:8080/v1/estados/1",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"estados",
 								"1"
 							]
@@ -1052,12 +1193,13 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/estados/1",
+							"raw": "localhost:8080/v1/estados/1",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"estados",
 								"1"
 							]
@@ -1091,12 +1233,13 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/estados",
+							"raw": "localhost:8080/v1/estados",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"estados"
 							]
 						}
@@ -1129,12 +1272,13 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/estados/4",
+							"raw": "localhost:8080/v1/estados/4",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"estados",
 								"4"
 							]
@@ -1153,12 +1297,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/grupos",
+							"raw": "localhost:8080/v1/grupos",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"grupos"
 							]
 						}
@@ -1182,12 +1327,13 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:8080/grupos/1",
+							"raw": "localhost:8080/v1/grupos/1",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"grupos",
 								"1"
 							]
@@ -1212,12 +1358,13 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:8080/grupos/1/permissoes",
+							"raw": "localhost:8080/v1/grupos/1/permissoes",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"grupos",
 								"1",
 								"permissoes"
@@ -1252,12 +1399,13 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/grupos",
+							"raw": "localhost:8080/v1/grupos",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"grupos"
 							]
 						}
@@ -1290,12 +1438,13 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/grupos/5",
+							"raw": "localhost:8080/v1/grupos/5",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"grupos",
 								"5"
 							]
@@ -1329,12 +1478,13 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/grupos/5",
+							"raw": "localhost:8080/v1/grupos/5",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"grupos",
 								"5"
 							]
@@ -1368,12 +1518,13 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/grupos/1/permissoes/1",
+							"raw": "localhost:8080/v1/grupos/1/permissoes/1",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"grupos",
 								"1",
 								"permissoes",
@@ -1409,12 +1560,13 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/grupos/1/permissoes/1",
+							"raw": "localhost:8080/v1/grupos/1/permissoes/1",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"grupos",
 								"1",
 								"permissoes",
@@ -1431,16 +1583,68 @@
 			"item": [
 				{
 					"name": "Cidades - Lista",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/vnd.algafood.v2+json",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "localhost:8080/cidades",
+							"raw": "localhost:8080/v1/cidades",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
+								"cidades"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cidades - Lista V2",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/vnd.algafood.v2+json",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:8080/v2/cidades",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v2",
 								"cidades"
 							]
 						}
@@ -1462,12 +1666,14 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:8080/cidades/5",
+							"raw": "localhost:8080/v1//cidades/5",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
+								"",
 								"cidades",
 								"5"
 							]
@@ -1487,6 +1693,12 @@
 						"header": [
 							{
 								"key": "Accept",
+								"value": "application/vnd.algafood.v1+json",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Accept",
 								"value": "application/json",
 								"type": "text"
 							}
@@ -1501,12 +1713,58 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/cidades",
+							"raw": "localhost:8080/v1/cidades",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
+								"cidades"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cidades - Adiciona V2",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/vnd.algafood.v2+json",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nomeCidade\": \"Ouro Preto\",\n    \"idEstado\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/v2/cidades",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v2",
 								"cidades"
 							]
 						}
@@ -1539,12 +1797,13 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/cidades/6",
+							"raw": "localhost:8080/v1/cidades/6",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"cidades",
 								"6"
 							]
@@ -1578,12 +1837,13 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/cidades/6",
+							"raw": "localhost:8080/v1/cidades/6",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"cidades",
 								"6"
 							]
@@ -1602,12 +1862,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/formas-pagamento",
+							"raw": "localhost:8080/v1/formas-pagamento",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"formas-pagamento"
 							]
 						}
@@ -1631,12 +1892,13 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:8080/formas-pagamento/1",
+							"raw": "localhost:8080/v1/formas-pagamento/1",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"formas-pagamento",
 								"1"
 							]
@@ -1670,12 +1932,13 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/formas-pagamento",
+							"raw": "localhost:8080/v1/formas-pagamento",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"formas-pagamento"
 							]
 						}
@@ -1747,14 +2010,15 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/formas-pagamento/4",
+							"raw": "localhost:8080/v1/formas-pagamento/1",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"formas-pagamento",
-								"4"
+								"1"
 							]
 						}
 					},
@@ -1771,13 +2035,56 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/pedidos",
+							"raw": "localhost:8080/v1/pedidos",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"pedidos"
+							],
+							"query": [
+								{
+									"key": "campos",
+									"value": "codigo,valorTotal,cliente.nome",
+									"disabled": true
+								},
+								{
+									"key": "clienteId",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "restauranteId",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "dataCriacaoInicio",
+									"value": "2020-04-01T21:06:50Z",
+									"disabled": true
+								},
+								{
+									"key": "dataCriacaoFim",
+									"value": "2023-04-01T21:06:50Z",
+									"disabled": true
+								},
+								{
+									"key": "size",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "nomeClientes,desc",
+									"disabled": true
+								}
 							]
 						}
 					},
@@ -1800,14 +2107,15 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:8080/pedidos/68814d6c-b126-11ec-9fe7-6d72f2662792",
+							"raw": "localhost:8080/v1/pedidos/f9981ca4-5a5e-4da3-af04-933861df3e55",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"pedidos",
-								"68814d6c-b126-11ec-9fe7-6d72f2662792"
+								"f9981ca4-5a5e-4da3-af04-933861df3e55"
 							]
 						}
 					},
@@ -1828,12 +2136,13 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/pedidos",
+							"raw": "localhost:8080/v1/pedidos",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"pedidos"
 							]
 						}
@@ -1857,14 +2166,15 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:8080/pedidos/68814d6c-b126-11ec-9fe7-6d72f2662792/confirmacao",
+							"raw": "localhost:8080/v1/pedidos/f9981ca4-5a5e-4da3-af04-933861df3e55/confirmacao",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"pedidos",
-								"68814d6c-b126-11ec-9fe7-6d72f2662792",
+								"f9981ca4-5a5e-4da3-af04-933861df3e55",
 								"confirmacao"
 							]
 						}
@@ -1888,14 +2198,15 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:8080/pedidos/68817cce-b126-11ec-9fe7-6d72f2662792/cancelamento",
+							"raw": "localhost:8080/v1/pedidos/f9981ca4-5a5e-4da3-af04-933861df3e55/cancelamento",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"pedidos",
-								"68817cce-b126-11ec-9fe7-6d72f2662792",
+								"f9981ca4-5a5e-4da3-af04-933861df3e55",
 								"cancelamento"
 							]
 						}
@@ -1919,12 +2230,13 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:8080/pedidos/68814d6c-b126-11ec-9fe7-6d72f2662792/entrega",
+							"raw": "localhost:8080/v1/pedidos/68814d6c-b126-11ec-9fe7-6d72f2662792/entrega",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"pedidos",
 								"68814d6c-b126-11ec-9fe7-6d72f2662792",
 								"entrega"
@@ -1944,15 +2256,23 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/restaurantes/1/produtos",
+							"raw": "localhost:8080/v1/restaurantes/1/produtos",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"restaurantes",
 								"1",
 								"produtos"
+							],
+							"query": [
+								{
+									"key": "incluirInativos",
+									"value": "true",
+									"disabled": true
+								}
 							]
 						}
 					},
@@ -1975,12 +2295,13 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:8080/restaurantes/1/produtos/1",
+							"raw": "localhost:8080/v1/restaurantes/1/produtos/1",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"restaurantes",
 								"1",
 								"produtos",
@@ -2016,12 +2337,13 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/restaurantes/1/produtos",
+							"raw": "localhost:8080/v1/restaurantes/1/produtos",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"restaurantes",
 								"1",
 								"produtos"
@@ -2056,16 +2378,154 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/restaurantes/1/produtos/10",
+							"raw": "localhost:8080/v1/restaurantes/1/produtos/10",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"restaurantes",
 								"1",
 								"produtos",
 								"10"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Fotos de Produtos",
+			"item": [
+				{
+					"name": "Produtos - Atualiza",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "descricao",
+									"value": "Descricao do arquivo",
+									"type": "text"
+								},
+								{
+									"key": "arquivo",
+									"type": "file",
+									"src": "/Users/jcdias/Downloads/vendas-diarias.pdf"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8080/v1/restaurantes/1/produtos/1/foto",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"restaurantes",
+								"1",
+								"produtos",
+								"1",
+								"foto"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Produtos - Recupera",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true,
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/pdf",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "descricao",
+									"value": "Descricao do arquivo",
+									"type": "text"
+								},
+								{
+									"key": "arquivo",
+									"type": "file",
+									"src": "/Users/jcdias/Downloads/vendas-diarias.pdf"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8080/v1/restaurantes/1/produtos/1/foto",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"restaurantes",
+								"1",
+								"produtos",
+								"1",
+								"foto"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Produtos - Delete",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/v1/restaurantes/1/produtos/1/foto",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"restaurantes",
+								"1",
+								"produtos",
+								"1",
+								"foto"
 							]
 						}
 					},
@@ -2082,12 +2542,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/usuarios",
+							"raw": "localhost:8080/v1/usuarios",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"usuarios"
 							]
 						}
@@ -2100,12 +2561,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/usuarios/1/grupos",
+							"raw": "localhost:8080/v1/usuarios/1/grupos",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"usuarios",
 								"1",
 								"grupos"
@@ -2131,12 +2593,13 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:8080/usuarios/1",
+							"raw": "localhost:8080/v1/usuarios/1",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"usuarios",
 								"1"
 							]
@@ -2150,12 +2613,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/usuarios/1/grupos/1",
+							"raw": "localhost:8080/v1/usuarios/1/grupos/1",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"usuarios",
 								"1",
 								"grupos",
@@ -2191,12 +2655,13 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/usuarios",
+							"raw": "localhost:8080/v1/usuarios",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"usuarios"
 							]
 						}
@@ -2229,12 +2694,13 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/usuarios/5",
+							"raw": "localhost:8080/v1/usuarios/5",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"usuarios",
 								"5"
 							]
@@ -2268,12 +2734,13 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/usuarios/5/senha",
+							"raw": "localhost:8080/v1/usuarios/5/senha",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"v1",
 								"usuarios",
 								"5",
 								"senha"
@@ -2283,6 +2750,143 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Estatisticas",
+			"item": [
+				{
+					"name": "vendas-diarias",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:8080/v1/estatisticas/vendas-diarias",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"estatisticas",
+								"vendas-diarias"
+							],
+							"query": [
+								{
+									"key": "restauranteId",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "dataCriacaoInicio",
+									"value": "2019-10-30T00:00:00Z",
+									"disabled": true
+								},
+								{
+									"key": "dataCriacaoFim",
+									"value": "2019-11-04T00:00:00Z",
+									"disabled": true
+								},
+								{
+									"key": "timeOffset",
+									"value": "-03:00",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "vendas-diarias report",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/pdf,application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:8080/v1/estatisticas/vendas-diarias?dataCriacaoInicio=2019-10-30T00:00:00Z&dataCriacaoFim=2019-11-04T00:00:00Z&timeOffset=-03:00",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"estatisticas",
+								"vendas-diarias"
+							],
+							"query": [
+								{
+									"key": "restauranteId",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "dataCriacaoInicio",
+									"value": "2019-10-30T00:00:00Z"
+								},
+								{
+									"key": "dataCriacaoFim",
+									"value": "2019-11-04T00:00:00Z"
+								},
+								{
+									"key": "timeOffset",
+									"value": "-03:00"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "OpenAPI",
+			"item": [
+				{
+					"name": "api-docs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/v2/api-docs",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v2",
+								"api-docs"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Root Entry Point",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080",
+					"host": [
+						"localhost"
+					],
+					"port": "8080"
+				}
+			},
+			"response": []
 		}
 	]
 }

@@ -61,9 +61,10 @@ public class CozinhaController implements CozinhaControllerOpenApi {
 		
 		log.info("Consultando cozinhas com paginas de {} registros", pageable.getPageSize());
 		
-		if (true) {
-			throw new RuntimeException("Teste de exception...");
-		}
+		// teste para lancar exception junto com o registro de log....
+//		if (true) {
+//			throw new RuntimeException("Teste de exception...");
+//		}
 		
 		Page<Cozinha> cozinhasPage = cozinhaRepository.findAll(pageable);
 		

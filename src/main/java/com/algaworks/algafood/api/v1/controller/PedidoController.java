@@ -27,6 +27,8 @@ import com.algaworks.algafood.api.v1.model.input.PedidoInput;
 import com.algaworks.algafood.api.v1.openapi.controller.PedidoControllerOpenApi;
 import com.algaworks.algafood.core.data.PageWrapper;
 import com.algaworks.algafood.core.data.PageableTranslator;
+import com.algaworks.algafood.core.security.AlgaSecurity;
+import com.algaworks.algafood.core.security.CheckSecurity;
 import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.NegocioException;
 import com.algaworks.algafood.domain.filter.PedidoFilter;
@@ -64,6 +66,9 @@ public class PedidoController implements PedidoControllerOpenApi {
 	@Autowired
 	private PagedResourcesAssembler<Pedido> pagedResourcesAssembler;
 
+	@Autowired
+	private AlgaSecurity algaSecurity;
+	
 // Usando MappingJacksonValue, requestparam para filtrar
 //	@GetMapping
 //	public MappingJacksonValue listar(@RequestParam(required = false) String campos) {
@@ -92,12 +97,14 @@ public class PedidoController implements PedidoControllerOpenApi {
 //	}
 	
 	// usando PedidoSpecs e com paginacao
+	
+	@CheckSecurity.Pedidos.PodePesquisar
 	@ApiImplicitParams({
 		@ApiImplicitParam(value = "Nomes das propriedades para filtrar na resposta, separados por virgula",
 				name = "campos", paramType = "query", type = "string")
 	})
 	@GetMapping
-	public PagedModel<PedidoResumoModel> pesquisar(@PageableDefault(size = 3) PedidoFilter pedidoFilter, Pageable pageable) {
+	public PagedModel<PedidoResumoModel> pesquisar(PedidoFilter pedidoFilter, @PageableDefault(size = 10) Pageable pageable) {
 		
 		// paga converter propriedade do model para propriedade da entidade
 		Pageable pageableTraduzido = traduzirPageable(pageable);
@@ -118,6 +125,7 @@ public class PedidoController implements PedidoControllerOpenApi {
 //		return pedidoResumoModelAssembler.toCollectionModel(todosPedidos);
 //	}
 
+	@CheckSecurity.Pedidos.PodeBuscar
 	@ApiImplicitParams({
 		@ApiImplicitParam(value = "Nomes das propriedades para filtrar na resposta, separados por virgula",
 				name = "campos", paramType = "query", type = "string")
@@ -129,6 +137,7 @@ public class PedidoController implements PedidoControllerOpenApi {
 		return pedidoModelAssembler.toModel(pedido);
 	}
 	
+	@CheckSecurity.Pedidos.PodeCriar
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public PedidoModel adicionar(@Valid @RequestBody PedidoInput pedidoInput) {
@@ -138,7 +147,7 @@ public class PedidoController implements PedidoControllerOpenApi {
 			
 			// TODO pegar usuario autenticado
 			novoPedido.setCliente(new Usuario());
-			novoPedido.getCliente().setId(1L);
+			novoPedido.getCliente().setId(algaSecurity.getUsuarioId());
 			
 			novoPedido = emissaoPedidoService.emitir(novoPedido);
 			

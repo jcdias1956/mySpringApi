@@ -17,6 +17,8 @@ import com.algaworks.algafood.api.v1.AlgaLinks;
 import com.algaworks.algafood.api.v1.assembler.GrupoModelAssembler;
 import com.algaworks.algafood.api.v1.model.GrupoModel;
 import com.algaworks.algafood.api.v1.openapi.controller.UsuarioGrupoControllerOpenApi;
+import com.algaworks.algafood.core.security.AlgaSecurity;
+import com.algaworks.algafood.core.security.CheckSecurity;
 import com.algaworks.algafood.domain.model.Usuario;
 import com.algaworks.algafood.domain.service.CadastroUsuarioService;
 
@@ -33,22 +35,29 @@ public class UsuarioGrupoController implements UsuarioGrupoControllerOpenApi {
 	@Autowired
 	private AlgaLinks algaLinks;
 	
+	@Autowired
+	private AlgaSecurity algaSecurity;
+	
+	@CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public CollectionModel<GrupoModel> listar(@PathVariable Long usuarioId) {
 		Usuario usuario = cadastroUsuarioService.buscarOuFalhar(usuarioId);
 	
 	    CollectionModel<GrupoModel> gruposModel = grupoModelAssembler.toCollectionModel(usuario.getGrupos())
-	            .removeLinks()
-	            .add(algaLinks.linkToUsuarioGrupoAssociacao(usuarioId, "associar"));
+	            .removeLinks();
 	    
-	    gruposModel.getContent().forEach(grupoModel -> {
-	        grupoModel.add(algaLinks.linkToUsuarioGrupoDesassociacao(
-	                usuarioId, grupoModel.getId(), "desassociar"));
-	    });
+	    if (algaSecurity.podeEditarUsuariosGruposPermissoes()) {
+	    	gruposModel.add(algaLinks.linkToUsuarioGrupoAssociacao(usuarioId, "associar"));
+	    	gruposModel.getContent().forEach(grupoModel -> {
+	    		grupoModel.add(algaLinks.linkToUsuarioGrupoDesassociacao(
+	    				usuarioId, grupoModel.getId(), "desassociar"));
+	    	});
+	    }
 	    
 		return gruposModel;
 	}
 	
+	@CheckSecurity.UsuariosGruposPermissoes.PodeEditar
 	@DeleteMapping("/{grupoId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public ResponseEntity<Void> desassociar(@PathVariable Long usuarioId, @PathVariable Long grupoId) {
@@ -57,6 +66,7 @@ public class UsuarioGrupoController implements UsuarioGrupoControllerOpenApi {
 		return ResponseEntity.noContent().build();
 	}
 	
+	@CheckSecurity.UsuariosGruposPermissoes.PodeEditar
 	@PutMapping("/{grupoId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public ResponseEntity<Void> associar(@PathVariable Long usuarioId, @PathVariable Long grupoId) {

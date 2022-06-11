@@ -2,6 +2,7 @@ package com.algaworks.algafood.domain.repository;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -26,4 +27,13 @@ public interface RestauranteRepository
 	
 	List<Restaurante> find(String nome, BigDecimal taxaFreteInicial,
 			BigDecimal taxaFreteFinal);
+	
+	Optional<Restaurante> findFirstRestauranteByNomeContaining(String nome);
+	
+	List<Restaurante> findTop2ByNomeContaining(String nome);
+	
+	int countByCozinhaId(Long cozinha);
+	
+	boolean existsResponsavel(Long restauranteId, Long usuarioId);
+	
 }

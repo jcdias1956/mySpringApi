@@ -40,6 +40,7 @@ import com.algaworks.algafood.api.v1.model.input.CozinhaIdInput;
 import com.algaworks.algafood.api.v1.model.input.RestauranteInput;
 import com.algaworks.algafood.api.v1.openapi.controller.RestauranteControllerOpenApi;
 import com.algaworks.algafood.api.v1.openapi.model.RestauranteBasicoModelOpenApi;
+import com.algaworks.algafood.core.security.CheckSecurity;
 import com.algaworks.algafood.core.validation.ValidacaoException;
 import com.algaworks.algafood.domain.exception.CidadeNaoEcontradaException;
 import com.algaworks.algafood.domain.exception.CozinhaNaoEcontradaException;
@@ -125,6 +126,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
 //		return restauranteModelAssembler.toCollectionModel(restauranteRepository.findAll());
 //	}
 	
+	@CheckSecurity.Restaurantes.PodeConsultar
 	@ApiOperation(value = "Lista restaurantes", response = RestauranteBasicoModelOpenApi.class)
 	@ApiImplicitParams({
 		@ApiImplicitParam(value = "Nome da projecao de pedidos", allowableValues = "apenas-nome",
@@ -144,6 +146,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
 //		return listar();
 //	}
 	
+	@CheckSecurity.Restaurantes.PodeConsultar
 	@ApiOperation(value = "Lista restaurantes", hidden = true)
 //	@JsonView(RestauranteView.ApenasNome.class)
 	@Override
@@ -153,6 +156,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
                 .toCollectionModel(restauranteRepository.findAll());
     }
 	
+	@CheckSecurity.Restaurantes.PodeConsultar
 	@GetMapping(path = "/{restauranteId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public RestauranteModel buscar(@PathVariable Long restauranteId) {
 		Restaurante restaurante =  cadastroRestauranteService.buscarOuFalhar(restauranteId);
@@ -160,6 +164,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
 		return restauranteModelAssembler.toModel(restaurante);
 	}
 	
+	@CheckSecurity.Restaurantes.PodeGerenciarCadastro
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.CREATED)
 	public RestauranteModel adicionar (@RequestBody @Valid RestauranteInput restauranteInput) {
@@ -171,6 +176,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
 		}
 	}
 	
+	@CheckSecurity.Restaurantes.PodeGerenciarCadastro
 	@PutMapping(path = "/{restauranteId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public RestauranteModel atualizar(@PathVariable Long restauranteId,
 			@RequestBody @Valid RestauranteInput restauranteInput) {
@@ -193,6 +199,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
 		}
 	}
 	
+	@CheckSecurity.Restaurantes.PodeGerenciarCadastro
 	@Override
 	@PutMapping(path = "/{restauranteId}/ativo")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
@@ -201,6 +208,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
 		return ResponseEntity.noContent().build();
 	}
 	
+	@CheckSecurity.Restaurantes.PodeGerenciarCadastro
 	@Override
 	@DeleteMapping(path = "/{restauranteId}/ativo")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
@@ -209,6 +217,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
 		return ResponseEntity.noContent().build();
 	}
 	
+	@CheckSecurity.Restaurantes.PodeGerenciarCadastro
 	@PutMapping("/ativacoes")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void ativarMultiplos(@RequestBody List<Long> restaurantesIds) {
@@ -219,6 +228,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
 		}
 	}
 	
+	@CheckSecurity.Restaurantes.PodeGerenciarCadastro
 	@DeleteMapping(path = "/ativacoes")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void inativarMultiplos(@RequestBody List<Long> restaurantesIds) {
@@ -229,6 +239,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
 		}
 	}
 	
+	@CheckSecurity.Restaurantes.PodeGerenciarFuncionamento
 	@Override
 	@PutMapping("/{restauranteId}/abertura")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
@@ -237,6 +248,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
 		return ResponseEntity.noContent().build();
 	}
 
+	@CheckSecurity.Restaurantes.PodeGerenciarFuncionamento
 	@Override
 	@PutMapping("/{restauranteId}/fechamento")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
@@ -252,6 +264,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
 	 * @param request
 	 * @return
 	 */
+	@CheckSecurity.Restaurantes.PodeGerenciarCadastro
 	@PatchMapping(path = "/{restauranteId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public RestauranteModel atualizaParcial(@PathVariable Long restauranteId,
 			@RequestBody Map<String, Object> campos, HttpServletRequest request) {
@@ -267,6 +280,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
 		}
 	}
 	
+	@CheckSecurity.Restaurantes.PodeGerenciarCadastro
 	@DeleteMapping("/{restauranteId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(@PathVariable Long restauranteId) {
